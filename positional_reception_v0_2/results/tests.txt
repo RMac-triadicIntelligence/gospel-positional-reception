@@ -1,0 +1,25 @@
+test_both_directions_have_both_outcomes (test_batch.ArtifactTests.test_both_directions_have_both_outcomes) ... ok
+test_boundary_velocity_finite_difference (test_batch.ArtifactTests.test_boundary_velocity_finite_difference) ... ok
+test_complete_history_holdout (test_batch.ArtifactTests.test_complete_history_holdout) ... ok
+test_duplicate_prediction_is_harness_error (test_batch.ArtifactTests.test_duplicate_prediction_is_harness_error) ... ok
+test_heldout_observable_schema (test_batch.ArtifactTests.test_heldout_observable_schema) ... ok
+test_invalid_probability_is_harness_error (test_batch.ArtifactTests.test_invalid_probability_is_harness_error) ... ok
+test_label_probability_inconsistency_rejected (test_batch.ArtifactTests.test_label_probability_inconsistency_rejected) ... ok
+test_missing_prediction_is_harness_error (test_batch.ArtifactTests.test_missing_prediction_is_harness_error) ... ok
+test_three_misses_and_gap_accounting (test_batch.ArtifactTests.test_three_misses_and_gap_accounting) ... ok
+test_truth_permutation_does_not_change_predictions (test_batch.ArtifactTests.test_truth_permutation_does_not_change_predictions) ... ok
+test_deterministic (test_batch.IsolationTests.test_deterministic) ... ok
+test_hidden_field_rejected (test_batch.IsolationTests.test_hidden_field_rejected) ... ok
+test_hidden_state_does_not_change_public_row (test_batch.IsolationTests.test_hidden_state_does_not_change_public_row) ... ok
+test_history_information_added (test_batch.IsolationTests.test_history_information_added) ... ok
+test_history_overlap_rejected (test_batch.IsolationTests.test_history_overlap_rejected) ... ok
+test_import_allowlist (test_batch.IsolationTests.test_import_allowlist) ... ok
+test_metadata_not_features (test_batch.IsolationTests.test_metadata_not_features) ... ok
+test_missing_observation_rejected (test_batch.IsolationTests.test_missing_observation_rejected) ... ok
+test_nonfinite_rejected (test_batch.IsolationTests.test_nonfinite_rejected) ... ok
+test_training_only_scaling (test_batch.IsolationTests.test_training_only_scaling) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.610s
+
+OK

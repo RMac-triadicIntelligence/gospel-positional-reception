@@ -1,0 +1,272 @@
+--- junction_v0_2_original.py
++++ junction_v0_3.py
+@@ -1,6 +1,15 @@
+ #!/usr/bin/env python3
+ """
+-Junction v0.2 — repair and retest.
++Junction v0.3 — focused test-harness correction.
++
++v0.3 changes only harness/test code and run reporting. The Authority and
++JunctionOrganism implementations below are unchanged from Claude's v0.2.
++- Strings cannot establish success; compound cases return actual records.
++- Observer disagreement is deliberately injected and asserted.
++- Malformed signing and missing components at receipt are separate cases.
++- Both refusal-only and suppressed-disagreement mutants must be detected.
++
++The following v0.2 repair history is retained:
+ 
+ v0.1 reported 10/10. A reject-everything mutant also reported clean: the
+ verdict harness counted any ConstitutionalViolation as HELD regardless of what
+@@ -44,6 +53,8 @@
+ """
+ 
+ import hashlib, json
++from pathlib import Path
++from unittest.mock import patch
+ from dataclasses import dataclass
+ from typing import List, Dict, Optional
+ 
+@@ -296,37 +307,50 @@
+ 
+ 
+ def case(name, expect, fn):
+-    """
+-    R1 -- the verdict depends on what the case EXPECTS. An exception is only a
+-    pass where refusal was expected. Anything unexpected FAILS.
+-    """
++    """Only actual records satisfy offering expectations. No text/boolean pass."""
++    allowed = {REFUSE, OFFER_NO_CROSSING, COMPLETE}
++    sequence = expect if isinstance(expect, tuple) else (expect,)
++    if not sequence or any(e not in allowed for e in sequence) or (len(sequence)>1 and REFUSE in sequence):
++        RESULTS.append((name, str(expect), "FAIL", "invalid expectation"))
++        return
+     try:
+         out = fn()
+     except ConstitutionalViolation as e:
+-        if expect == REFUSE:
+-            RESULTS.append((name, expect, "PASS", f"refused: {e}"))
+-        else:
+-            RESULTS.append((name, expect, "FAIL",
+-                            f"expected {expect}, got refusal: {e}"))
++        ok = expect == REFUSE
++        RESULTS.append((name, expect, "PASS" if ok else "FAIL",
++                        f"refused: {e}" if ok else f"expected {expect}, got refusal: {e}"))
+         return
+     except Exception as e:
+-        RESULTS.append((name, expect, "FAIL",
+-                        f"unexpected {type(e).__name__}: {e}")); return
++        RESULTS.append((name, expect, "FAIL", f"unexpected {type(e).__name__}: {e}"))
++        return
+     if expect == REFUSE:
+-        RESULTS.append((name, expect, "FAIL",
+-                        f"expected refusal, got: {out}")); return
+-    if isinstance(out, OfferingRecord):
+-        got = COMPLETE if out.restoration_completed else OFFER_NO_CROSSING
+-        ok = got == expect
+-        RESULTS.append((name, expect, "PASS" if ok else "FAIL",
+-                        f"{got}: impulse {out.impulse} vs threshold "
+-                        f"{out.pre_threshold:.4f}, basin {out.basin}"
+-                        + (f" | {out.note}" if out.note else "")))
+-    elif isinstance(out, str):
+-        RESULTS.append((name, expect, "PASS", out))
+-    else:
+-        RESULTS.append((name, expect, "FAIL",
+-                        f"returned {type(out).__name__}"))
++        RESULTS.append((name, expect, "FAIL", "expected refusal, function returned"))
++        return
++    records = out if isinstance(expect, tuple) and isinstance(out, tuple) else (out,)
++    if len(records) != len(sequence) or any(type(r) is not OfferingRecord for r in records):
++        RESULTS.append((name, expect, "FAIL", "expected actual OfferingRecord(s), got incompatible result"))
++        return
++    details = []
++    for wanted, r in zip(sequence, records):
++        flags = [r.approval_valid, r.offering_made, r.crossed,
++                 r.restoration_completed, r.criterion_disagreement]
++        if any(type(v) is not bool for v in flags):
++            RESULTS.append((name, expect, "FAIL", "record flags must be booleans")); return
++        if not r.approval_valid or not r.offering_made:
++            RESULTS.append((name, expect, "FAIL", "expected an authorized offering")); return
++        if r.basin not in ("left", "right") or r.observer_label not in ("left", "right", "unresolved"):
++            RESULTS.append((name, expect, "FAIL", "invalid outcome label")); return
++        if r.crossed != (r.basin == "right") or r.restoration_completed != r.crossed:
++            RESULTS.append((name, expect, "FAIL", "record contradicts declared completion criterion")); return
++        if r.criterion_disagreement != (r.observer_label != r.basin):
++            RESULTS.append((name, expect, "FAIL", "observer disagreement recorded incorrectly")); return
++        got = COMPLETE if r.restoration_completed else OFFER_NO_CROSSING
++        if got != wanted:
++            RESULTS.append((name, expect, "FAIL", f"expected {wanted}, got {got}")); return
++        details.append(f"{got}: impulse {r.impulse}, threshold {r.pre_threshold:.4f}, "
++                       f"basin {r.basin}, observer {r.observer_label}, "
++                       f"disagreement={r.criterion_disagreement}")
++    RESULTS.append((name, expect, "PASS", " | ".join(details)))
+ 
+ 
+ def build(dwell, auth=None):
+@@ -363,11 +387,7 @@
+     r2 = o2.receive_offering("E1", ap2, now)
+     if r1.restoration_completed == r2.restoration_completed:
+         raise AssertionError("reception collapsed into permission")
+-    return (f"same impulse 0.60, both authorized | dwell 2 thr "
+-            f"{r1.pre_threshold:.3f} -> {r1.basin}, completed="
+-            f"{r1.restoration_completed} | dwell 24 thr "
+-            f"{r2.pre_threshold:.3f} -> {r2.basin}, completed="
+-            f"{r2.restoration_completed}")
++    return (r1, r2)
+ 
+ 
+ def k_rogue_authority():
+@@ -375,10 +395,18 @@
+     return o.receive_offering("E1", Authority().approve(e, now, 100), now)
+ 
+ 
+-def k_no_components():
++def k_malformed_envelope():
+     a, o = build(24)
+     return o.receive_offering("E1", a.approve({"event_id": "E1"}, 1000., 100),
+                               1000.)
++
++
++def k_no_components_at_receive():
++    # Genuine signature on a full envelope, THEN remove pending components.
++    # No malformed-authority refusal can mask the receiver's check.
++    a, o, e, ap, now = prepared(24, .60)
++    o.pending.clear()
++    return o.receive_offering("E1", ap, now)
+ 
+ 
+ def k_empty_realization():
+@@ -434,18 +462,24 @@
+     return o.receive_offering("E1", ap, now, duration=0.0)
+ 
+ 
+-def k_criterion_disagreement():                              # R4 replaces v0.1 case 10
+-    """
+-    Deliberately drive observer label and instantaneous membership apart, and
+-    require that the disagreement is RECORDED rather than hidden.
+-    """
+-    a, o, e, ap, now = prepared(24, 0.4341)   # sit on the threshold
+-    rec = o.receive_offering("E1", ap, now)
+-    if rec.observer_label == "unresolved" and not rec.criterion_disagreement:
++def k_criterion_disagreement():
++    """Inject an observer label mismatch while retaining the real endpoint."""
++    a, o, e, ap, now = prepared(24, .60)
++    actual_observe = observe
++    def unresolved_label(*args, **kwargs):
++        _, end = actual_observe(*args, **kwargs)
++        return "unresolved", end
++    with patch(__name__ + ".observe", side_effect=unresolved_label) as injected:
++        rec = o.receive_offering("E1", ap, now)
++        if injected.call_count != 1:
++            raise AssertionError("observer injection was not exercised exactly once")
++    if rec.observer_label != "unresolved" or rec.basin != "right":
++        raise AssertionError("required disagreement was not produced and retained")
++    if rec.criterion_disagreement is not True:
+         raise AssertionError("disagreement not recorded")
+-    return (f"observer '{rec.observer_label}', instantaneous "
+-            f"'{rec.basin}', disagreement recorded="
+-            f"{rec.criterion_disagreement}")
++    if "CRITERION DISAGREEMENT" not in rec.note:
++        raise AssertionError("disagreement diagnostic missing")
++    return rec
+ 
+ 
+ def k_record_preserved():
+@@ -457,15 +491,16 @@
+     assert ev["resolved_by"] is None
+     kinds = [t["kind"] for t in o.trace]
+     assert "restoration" not in kinds and "offering_without_crossing" in kinds
+-    return "event preserved, unresolved, offering recorded without a crossing"
++    return rec
+ 
+ 
+ SUITE = [
+     ("complete set, valid approval, insufficient response", OFFER_NO_CROSSING, k_insufficient),
+     ("complete set, valid approval, sufficient response", COMPLETE, k_sufficient),
+-    ("SAME authorized offering, two positions", COMPLETE, k_two_positions),
++    ("SAME authorized offering, two positions", (OFFER_NO_CROSSING, COMPLETE), k_two_positions),
+     ("receptive position, rogue authority", REFUSE, k_rogue_authority),
+-    ("valid signature, no components", REFUSE, k_no_components),
++    ("authority rejects malformed envelope", REFUSE, k_malformed_envelope),
++    ("signed full envelope, components absent at receive", REFUSE, k_no_components_at_receive),
+     ("empty realization", REFUSE, k_empty_realization),
+     ("empty confession (R5)", REFUSE, k_empty_confession),
+     ("state moved after proposal", REFUSE, k_state_moved),
+@@ -476,7 +511,7 @@
+     ("expired approval", REFUSE, k_expired),
+     ("assay duration varied by caller (R3)", REFUSE, k_duration_varied),
+     ("criterion disagreement recorded (R4)", COMPLETE, k_criterion_disagreement),
+-    ("record preserved on non-crossing", COMPLETE, k_record_preserved),
++    ("record preserved on non-crossing", OFFER_NO_CROSSING, k_record_preserved),
+ ]
+ 
+ 
+@@ -495,39 +530,38 @@
+ 
+ 
+ def main():
+-    print("JUNCTION v0.2 — repair and retest")
+-    print("claim: authorization supplies the externally governed component;")
+-    print("       it must not manufacture the dynamical outcome.")
+-
+-    n_fail = run("NORMAL RUN")
+-
+-    # R1 regression: a junction that refuses everything must FAIL loudly.
+-    print("\n" + "=" * 70)
+-    print("MUTANT REGRESSION — receive_offering() refuses everything.")
+-    print("v0.1 scored this 10/10. It must now fail.")
++    print("JUNCTION v0.3 — targeted harness correction")
++    runs = {}
++    run("NORMAL RUN")
++    runs["normal"] = list(RESULTS)
+     real = JunctionOrganism.receive_offering
+-    def refuse_all(self, *a, **k):
++    def refuse_all(self, *args, **kwargs):
+         raise ConstitutionalViolation("mutant: refuses everything")
+-    JunctionOrganism.receive_offering = refuse_all
+-    n_mutant_fail = run("MUTANT RUN")
+-    JunctionOrganism.receive_offering = real
+-
+-    print("\n" + "=" * 70)
+-    if n_fail == 0 and n_mutant_fail > 0:
+-        print(f"normal run clean; mutant produced {n_mutant_fail} failures.")
+-        print("The suite can now distinguish a working junction from one that")
+-        print("never permits an offering.")
+-    else:
+-        print(f"ATTENTION: normal failures {n_fail}, mutant failures "
+-              f"{n_mutant_fail}. A mutant that passes means the harness is "
+-              f"still degenerate.")
+-
+-    print("\nHELD OPEN — no mechanism invented")
+-    print("  Retry policy after a non-crossing offering.")
+-    print("  What produces the topography. The schedule was supplied.")
+-    print("  What makes a confession substantively genuine. R5 rejects blank")
+-    print("  content only; it establishes nothing about truthfulness.")
++    def suppress_disagreement(self, *args, **kwargs):
++        rec = real(self, *args, **kwargs)
++        rec.criterion_disagreement = False
++        return rec
++    for label, replacement in [("reject_everything", refuse_all),
++                               ("suppress_disagreement", suppress_disagreement)]:
++        with patch.object(JunctionOrganism, "receive_offering", replacement):
++            run("MUTANT: " + label)
++            runs[label] = list(RESULTS)
++    failed = {k: [r[0] for r in records if r[2] == "FAIL"] for k, records in runs.items()}
++    expected_reject = {name for name, expect, _ in SUITE if expect != REFUSE}
++    checks = {
++        "normal_clean": not failed["normal"],
++        "reject_mutant_fails_exact_expected_cases": set(failed["reject_everything"]) == expected_reject,
++        "disagreement_mutant_fails_target_case": failed["suppress_disagreement"] == ["criterion disagreement recorded (R4)"],
++    }
++    summary = {"checks": checks, "failed_cases": failed, "runs": runs,
++               "scope": "Harness repair only; junction operational behavior unchanged from v0.2."}
++    dest = Path(__file__).parent / "results"
++    dest.mkdir(exist_ok=True)
++    (dest / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
++    print("\nREGRESSION GATE:", "PASS" if all(checks.values()) else "FAIL")
++    print("HELD OPEN: retry policy; origin of topography; substantive confession.")
++    return 0 if all(checks.values()) else 1
+ 
+ 
+ if __name__ == "__main__":
+-    main()
++    raise SystemExit(main())

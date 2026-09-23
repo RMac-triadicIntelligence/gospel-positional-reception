@@ -1,0 +1,12 @@
+test_both_sides_of_independent_threshold (test_reception.Tests.test_both_sides_of_independent_threshold) ... ok
+test_known_symmetric_boundary (test_reception.Tests.test_known_symmetric_boundary) ... ok
+test_no_boundary_disappearance_relabel (test_reception.Tests.test_no_boundary_disappearance_relabel) ... ok
+test_no_forced_improvement (test_reception.Tests.test_no_forced_improvement) ... ok
+test_no_nudge_no_crossing (test_reception.Tests.test_no_nudge_no_crossing) ... ok
+test_repeated_impulses_can_accumulate (test_reception.Tests.test_repeated_impulses_can_accumulate) ... ok
+test_snapshot_unchanged_by_assay (test_reception.Tests.test_snapshot_unchanged_by_assay) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.021s
+
+OK

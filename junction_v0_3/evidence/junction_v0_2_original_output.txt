@@ -1,0 +1,88 @@
+JUNCTION v0.2 — repair and retest
+claim: authorization supplies the externally governed component;
+       it must not manufacture the dynamical outcome.
+
+NORMAL RUN
+  [PASS] complete set, valid approval, insufficient response  (expects OFFER_NO_CROSSING)
+         OFFER_NO_CROSSING: impulse 0.6 vs threshold 0.8853, basin left | approval valid and unexpired; offering made; no crossing. What remains usable from this approval is HELD OPEN.
+  [PASS] complete set, valid approval, sufficient response  (expects COMPLETE)
+         COMPLETE: impulse 0.6 vs threshold 0.4341, basin right
+  [PASS] SAME authorized offering, two positions  (expects COMPLETE)
+         same impulse 0.60, both authorized | dwell 2 thr 0.885 -> left, completed=False | dwell 24 thr 0.434 -> right, completed=True
+  [PASS] receptive position, rogue authority  (expects REFUSE)
+         refused: II.2 approval not from the authority
+  [PASS] valid signature, no components  (expects REFUSE)
+         refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']
+  [PASS] empty realization  (expects REFUSE)
+         refused: II.2 realization not certified by declaration alone
+  [PASS] empty confession (R5)  (expects REFUSE)
+         refused: II.2 confession is empty
+  [PASS] state moved after proposal  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['execution_context']
+  [PASS] substrate time shifted (R3)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['execution_context']
+  [PASS] event content rewritten after signing (R3)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['event_root']
+  [PASS] offering impulse swapped (R6)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['offering_impulse']
+  [PASS] wrapper expiry extended past signed (R2)  (expects REFUSE)
+         refused: II.3 wrapper expiry 2000.0 disagrees with signed 1100.0
+  [PASS] expired approval  (expects REFUSE)
+         refused: II.3 approval expired (signed value)
+  [PASS] assay duration varied by caller (R3)  (expects REFUSE)
+         refused: II.3 assay duration 0.0 not the bound 24.0
+  [PASS] criterion disagreement recorded (R4)  (expects COMPLETE)
+         observer 'right', instantaneous 'right', disagreement recorded=False
+  [PASS] record preserved on non-crossing  (expects COMPLETE)
+         event preserved, unresolved, offering recorded without a crossing
+  --> 16/16 pass, 0 fail
+
+======================================================================
+MUTANT REGRESSION — receive_offering() refuses everything.
+v0.1 scored this 10/10. It must now fail.
+
+MUTANT RUN
+  [FAIL] complete set, valid approval, insufficient response  (expects OFFER_NO_CROSSING)
+         expected OFFER_NO_CROSSING, got refusal: mutant: refuses everything
+  [FAIL] complete set, valid approval, sufficient response  (expects COMPLETE)
+         expected COMPLETE, got refusal: mutant: refuses everything
+  [FAIL] SAME authorized offering, two positions  (expects COMPLETE)
+         expected COMPLETE, got refusal: mutant: refuses everything
+  [PASS] receptive position, rogue authority  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] valid signature, no components  (expects REFUSE)
+         refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']
+  [PASS] empty realization  (expects REFUSE)
+         refused: II.2 realization not certified by declaration alone
+  [PASS] empty confession (R5)  (expects REFUSE)
+         refused: II.2 confession is empty
+  [PASS] state moved after proposal  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] substrate time shifted (R3)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] event content rewritten after signing (R3)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] offering impulse swapped (R6)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] wrapper expiry extended past signed (R2)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] expired approval  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] assay duration varied by caller (R3)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [FAIL] criterion disagreement recorded (R4)  (expects COMPLETE)
+         expected COMPLETE, got refusal: mutant: refuses everything
+  [FAIL] record preserved on non-crossing  (expects COMPLETE)
+         expected COMPLETE, got refusal: mutant: refuses everything
+  --> 11/16 pass, 5 fail
+
+======================================================================
+normal run clean; mutant produced 5 failures.
+The suite can now distinguish a working junction from one that
+never permits an offering.
+
+HELD OPEN — no mechanism invented
+  Retry policy after a non-crossing offering.
+  What produces the topography. The schedule was supplied.
+  What makes a confession substantively genuine. R5 rejects blank
+  content only; it establishes nothing about truthfulness.

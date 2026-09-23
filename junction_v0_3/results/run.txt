@@ -1,0 +1,115 @@
+JUNCTION v0.3 — targeted harness correction
+
+NORMAL RUN
+  [PASS] complete set, valid approval, insufficient response  (expects OFFER_NO_CROSSING)
+         OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False
+  [PASS] complete set, valid approval, sufficient response  (expects COMPLETE)
+         COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False
+  [PASS] SAME authorized offering, two positions  (expects ('OFFER_NO_CROSSING', 'COMPLETE'))
+         OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False | COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False
+  [PASS] receptive position, rogue authority  (expects REFUSE)
+         refused: II.2 approval not from the authority
+  [PASS] authority rejects malformed envelope  (expects REFUSE)
+         refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']
+  [PASS] signed full envelope, components absent at receive  (expects REFUSE)
+         refused: II.2 incomplete set: nothing proposed
+  [PASS] empty realization  (expects REFUSE)
+         refused: II.2 realization not certified by declaration alone
+  [PASS] empty confession (R5)  (expects REFUSE)
+         refused: II.2 confession is empty
+  [PASS] state moved after proposal  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['execution_context']
+  [PASS] substrate time shifted (R3)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['execution_context']
+  [PASS] event content rewritten after signing (R3)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['event_root']
+  [PASS] offering impulse swapped (R6)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['offering_impulse']
+  [PASS] wrapper expiry extended past signed (R2)  (expects REFUSE)
+         refused: II.3 wrapper expiry 2000.0 disagrees with signed 1100.0
+  [PASS] expired approval  (expects REFUSE)
+         refused: II.3 approval expired (signed value)
+  [PASS] assay duration varied by caller (R3)  (expects REFUSE)
+         refused: II.3 assay duration 0.0 not the bound 24.0
+  [PASS] criterion disagreement recorded (R4)  (expects COMPLETE)
+         COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer unresolved, disagreement=True
+  [PASS] record preserved on non-crossing  (expects OFFER_NO_CROSSING)
+         OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False
+  --> 17/17 pass, 0 fail
+
+MUTANT: reject_everything
+  [FAIL] complete set, valid approval, insufficient response  (expects OFFER_NO_CROSSING)
+         expected OFFER_NO_CROSSING, got refusal: mutant: refuses everything
+  [FAIL] complete set, valid approval, sufficient response  (expects COMPLETE)
+         expected COMPLETE, got refusal: mutant: refuses everything
+  [FAIL] SAME authorized offering, two positions  (expects ('OFFER_NO_CROSSING', 'COMPLETE'))
+         expected ('OFFER_NO_CROSSING', 'COMPLETE'), got refusal: mutant: refuses everything
+  [PASS] receptive position, rogue authority  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] authority rejects malformed envelope  (expects REFUSE)
+         refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']
+  [PASS] signed full envelope, components absent at receive  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] empty realization  (expects REFUSE)
+         refused: II.2 realization not certified by declaration alone
+  [PASS] empty confession (R5)  (expects REFUSE)
+         refused: II.2 confession is empty
+  [PASS] state moved after proposal  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] substrate time shifted (R3)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] event content rewritten after signing (R3)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] offering impulse swapped (R6)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] wrapper expiry extended past signed (R2)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] expired approval  (expects REFUSE)
+         refused: mutant: refuses everything
+  [PASS] assay duration varied by caller (R3)  (expects REFUSE)
+         refused: mutant: refuses everything
+  [FAIL] criterion disagreement recorded (R4)  (expects COMPLETE)
+         expected COMPLETE, got refusal: mutant: refuses everything
+  [FAIL] record preserved on non-crossing  (expects OFFER_NO_CROSSING)
+         expected OFFER_NO_CROSSING, got refusal: mutant: refuses everything
+  --> 12/17 pass, 5 fail
+
+MUTANT: suppress_disagreement
+  [PASS] complete set, valid approval, insufficient response  (expects OFFER_NO_CROSSING)
+         OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False
+  [PASS] complete set, valid approval, sufficient response  (expects COMPLETE)
+         COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False
+  [PASS] SAME authorized offering, two positions  (expects ('OFFER_NO_CROSSING', 'COMPLETE'))
+         OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False | COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False
+  [PASS] receptive position, rogue authority  (expects REFUSE)
+         refused: II.2 approval not from the authority
+  [PASS] authority rejects malformed envelope  (expects REFUSE)
+         refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']
+  [PASS] signed full envelope, components absent at receive  (expects REFUSE)
+         refused: II.2 incomplete set: nothing proposed
+  [PASS] empty realization  (expects REFUSE)
+         refused: II.2 realization not certified by declaration alone
+  [PASS] empty confession (R5)  (expects REFUSE)
+         refused: II.2 confession is empty
+  [PASS] state moved after proposal  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['execution_context']
+  [PASS] substrate time shifted (R3)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['execution_context']
+  [PASS] event content rewritten after signing (R3)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['event_root']
+  [PASS] offering impulse swapped (R6)  (expects REFUSE)
+         refused: II.3 binding broken; fields changed since proposal: ['offering_impulse']
+  [PASS] wrapper expiry extended past signed (R2)  (expects REFUSE)
+         refused: II.3 wrapper expiry 2000.0 disagrees with signed 1100.0
+  [PASS] expired approval  (expects REFUSE)
+         refused: II.3 approval expired (signed value)
+  [PASS] assay duration varied by caller (R3)  (expects REFUSE)
+         refused: II.3 assay duration 0.0 not the bound 24.0
+  [FAIL] criterion disagreement recorded (R4)  (expects COMPLETE)
+         unexpected AssertionError: disagreement not recorded
+  [PASS] record preserved on non-crossing  (expects OFFER_NO_CROSSING)
+         OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False
+  --> 16/17 pass, 1 fail
+
+REGRESSION GATE: PASS
+HELD OPEN: retry policy; origin of topography; substantive confession.

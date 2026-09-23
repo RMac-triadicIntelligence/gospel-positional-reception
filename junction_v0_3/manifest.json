@@ -1,0 +1,21 @@
+{
+  "runtime": {
+    "python": "3.12.14",
+    "cryptography": "46.0.0"
+  },
+  "scope": "Harness-only changes; operational definitions unchanged from supplied v0.2",
+  "sha256": {
+    "README.md": "466b5b9d4224c4529f9305d01e23ad4020c30cafa41745081b9b4190ad544b65",
+    "changes.patch": "2c5adf2aa3734dac6f948e0f67c031f3e3ffc939f8f1c56f81c347e028057a6f",
+    "evidence/junction_v0_2_original.py": "98c04cedb6056e382ceb6b6ae7d55c70423728ce6185db655e0fc2b718cc8832",
+    "evidence/junction_v0_2_original_output.txt": "fbe28f0911df0d4a415c2ba415ec856443918cb17dc45f5f9436989b36d51cbf",
+    "junction_v0_3.py": "a2efab267e74c8c1a61edfba4f3dc17ef337823b65234c1196b32c72ce275eca",
+    "reception.py": "709f11b524f920112ea84d7f806b758f4084c7bc85815e5fc7eb4bb57e151f9e",
+    "requirements.txt": "6dd92aa33cf5ab7599a9848e697031b5a58a1c3ba8e02caadea333f804056b43",
+    "results/harness_tests.txt": "25e1011a8b21a6e2686d2f76f052a27e76591df15c1bc262b9dce5541b20829d",
+    "results/run.txt": "32331049451b2de73311e34637b9c605fdfe797b3d126af69f35e53e1092831d",
+    "results/summary.json": "f491384b3d52acdf73884db5d0bd3b06c18a05c17dba447e8f785d9de5932bb6",
+    "results/unchanged_implementation.json": "9691032674d9ef4c3788fb8c45c72c0bc977a709723f4620e0829f11a91b5d71",
+    "test_harness.py": "2e9a82ce3c7ab72e8ca1c472ae2906566e271e0266e043d1ce653b9d62dd3ea1"
+  }
+}

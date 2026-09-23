@@ -1,0 +1,105 @@
+{
+  "scope": "Observable prediction in the supplied dynamical family; no developmental reception or authorization claim.",
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.3.5"
+  },
+  "train_trials": 2400,
+  "heldout_trials": 960,
+  "prediction_sha256_before_scoring": "731ee8b02b1bd67af76e53dabb07b2da618f8f623d056b8fdc4d462ff790357c",
+  "diagnostics": [
+    {
+      "seed": 3,
+      "checkpoint": 24,
+      "impulse": 0.45,
+      "initial_gap": 0.006568367952977716,
+      "outcome": "right",
+      "first_encounter": {
+        "lower_t": 28.49999999999948,
+        "upper_t": 28.51999999999948,
+        "state_contribution": -0.012883412362271085,
+        "boundary_contribution": 0.019480009370156814,
+        "gap_closure": 0.0065965970078857294
+      },
+      "accounting_max_error": 2.220446049250313e-16,
+      "half_step": {
+        "seed": 3,
+        "checkpoint": 24,
+        "impulse": 0.45,
+        "initial_gap": 0.00656836795288801,
+        "outcome": "right",
+        "first_encounter": {
+          "lower_t": 28.510000000001657,
+          "upper_t": 28.52000000000166,
+          "state_contribution": -0.012883412355679746,
+          "boundary_contribution": 0.01948000937015426,
+          "gap_closure": 0.0065965970144745145
+        },
+        "accounting_max_error": 2.220446049250313e-16
+      }
+    },
+    {
+      "seed": 5,
+      "checkpoint": 2,
+      "impulse": 0.85,
+      "initial_gap": 0.03226201062931627,
+      "outcome": "right",
+      "first_encounter": {
+        "lower_t": 4.719999999999987,
+        "upper_t": 4.739999999999987,
+        "state_contribution": -0.052334160168701876,
+        "boundary_contribution": 0.08494015031928676,
+        "gap_closure": 0.03260599015058488
+      },
+      "accounting_max_error": 2.220446049250313e-16,
+      "half_step": {
+        "seed": 5,
+        "checkpoint": 2,
+        "impulse": 0.85,
+        "initial_gap": 0.03226201065546233,
+        "outcome": "right",
+        "first_encounter": {
+          "lower_t": 4.719999999999944,
+          "upper_t": 4.729999999999944,
+          "state_contribution": -0.05233612869214707,
+          "boundary_contribution": 0.08468509224066231,
+          "gap_closure": 0.03234896354851524
+        },
+        "accounting_max_error": 2.220446049250313e-16
+      }
+    },
+    {
+      "seed": 10,
+      "checkpoint": 2,
+      "impulse": 0.85,
+      "initial_gap": 0.03327328667099175,
+      "outcome": "right",
+      "first_encounter": {
+        "lower_t": 5.3199999999999745,
+        "upper_t": 5.339999999999974,
+        "state_contribution": -0.06694083690224698,
+        "boundary_contribution": 0.10053463719639447,
+        "gap_closure": 0.03359380029414749
+      },
+      "accounting_max_error": 2.220446049250313e-16,
+      "half_step": {
+        "seed": 10,
+        "checkpoint": 2,
+        "impulse": 0.85,
+        "initial_gap": 0.033273286696689636,
+        "outcome": "right",
+        "first_encounter": {
+          "lower_t": 5.319999999999931,
+          "upper_t": 5.329999999999931,
+          "state_contribution": -0.06694263370847561,
+          "boundary_contribution": 0.10029560652135458,
+          "gap_closure": 0.03335297281287897
+        },
+        "accounting_max_error": 2.220446049250313e-16
+      }
+    }
+  ],
+  "half_step_label_changes": 0,
+  "half_step_max_end_x_delta": 1.0754730439543891e-12,
+  "protocol_sha256": "9b8d7bd6dd3f63256f15161fd6db2c73adcbfac100ab0cd438b2591beec4bf07"
+}

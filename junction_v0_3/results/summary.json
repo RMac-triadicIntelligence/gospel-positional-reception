@@ -1,0 +1,344 @@
+{
+  "checks": {
+    "normal_clean": true,
+    "reject_mutant_fails_exact_expected_cases": true,
+    "disagreement_mutant_fails_target_case": true
+  },
+  "failed_cases": {
+    "normal": [],
+    "reject_everything": [
+      "complete set, valid approval, insufficient response",
+      "complete set, valid approval, sufficient response",
+      "SAME authorized offering, two positions",
+      "criterion disagreement recorded (R4)",
+      "record preserved on non-crossing"
+    ],
+    "suppress_disagreement": [
+      "criterion disagreement recorded (R4)"
+    ]
+  },
+  "runs": {
+    "normal": [
+      [
+        "complete set, valid approval, insufficient response",
+        "OFFER_NO_CROSSING",
+        "PASS",
+        "OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False"
+      ],
+      [
+        "complete set, valid approval, sufficient response",
+        "COMPLETE",
+        "PASS",
+        "COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False"
+      ],
+      [
+        "SAME authorized offering, two positions",
+        [
+          "OFFER_NO_CROSSING",
+          "COMPLETE"
+        ],
+        "PASS",
+        "OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False | COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False"
+      ],
+      [
+        "receptive position, rogue authority",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 approval not from the authority"
+      ],
+      [
+        "authority rejects malformed envelope",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']"
+      ],
+      [
+        "signed full envelope, components absent at receive",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 incomplete set: nothing proposed"
+      ],
+      [
+        "empty realization",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 realization not certified by declaration alone"
+      ],
+      [
+        "empty confession (R5)",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 confession is empty"
+      ],
+      [
+        "state moved after proposal",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['execution_context']"
+      ],
+      [
+        "substrate time shifted (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['execution_context']"
+      ],
+      [
+        "event content rewritten after signing (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['event_root']"
+      ],
+      [
+        "offering impulse swapped (R6)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['offering_impulse']"
+      ],
+      [
+        "wrapper expiry extended past signed (R2)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 wrapper expiry 2000.0 disagrees with signed 1100.0"
+      ],
+      [
+        "expired approval",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 approval expired (signed value)"
+      ],
+      [
+        "assay duration varied by caller (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 assay duration 0.0 not the bound 24.0"
+      ],
+      [
+        "criterion disagreement recorded (R4)",
+        "COMPLETE",
+        "PASS",
+        "COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer unresolved, disagreement=True"
+      ],
+      [
+        "record preserved on non-crossing",
+        "OFFER_NO_CROSSING",
+        "PASS",
+        "OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False"
+      ]
+    ],
+    "reject_everything": [
+      [
+        "complete set, valid approval, insufficient response",
+        "OFFER_NO_CROSSING",
+        "FAIL",
+        "expected OFFER_NO_CROSSING, got refusal: mutant: refuses everything"
+      ],
+      [
+        "complete set, valid approval, sufficient response",
+        "COMPLETE",
+        "FAIL",
+        "expected COMPLETE, got refusal: mutant: refuses everything"
+      ],
+      [
+        "SAME authorized offering, two positions",
+        [
+          "OFFER_NO_CROSSING",
+          "COMPLETE"
+        ],
+        "FAIL",
+        "expected ('OFFER_NO_CROSSING', 'COMPLETE'), got refusal: mutant: refuses everything"
+      ],
+      [
+        "receptive position, rogue authority",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "authority rejects malformed envelope",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']"
+      ],
+      [
+        "signed full envelope, components absent at receive",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "empty realization",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 realization not certified by declaration alone"
+      ],
+      [
+        "empty confession (R5)",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 confession is empty"
+      ],
+      [
+        "state moved after proposal",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "substrate time shifted (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "event content rewritten after signing (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "offering impulse swapped (R6)",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "wrapper expiry extended past signed (R2)",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "expired approval",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "assay duration varied by caller (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: mutant: refuses everything"
+      ],
+      [
+        "criterion disagreement recorded (R4)",
+        "COMPLETE",
+        "FAIL",
+        "expected COMPLETE, got refusal: mutant: refuses everything"
+      ],
+      [
+        "record preserved on non-crossing",
+        "OFFER_NO_CROSSING",
+        "FAIL",
+        "expected OFFER_NO_CROSSING, got refusal: mutant: refuses everything"
+      ]
+    ],
+    "suppress_disagreement": [
+      [
+        "complete set, valid approval, insufficient response",
+        "OFFER_NO_CROSSING",
+        "PASS",
+        "OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False"
+      ],
+      [
+        "complete set, valid approval, sufficient response",
+        "COMPLETE",
+        "PASS",
+        "COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False"
+      ],
+      [
+        "SAME authorized offering, two positions",
+        [
+          "OFFER_NO_CROSSING",
+          "COMPLETE"
+        ],
+        "PASS",
+        "OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False | COMPLETE: impulse 0.6, threshold 0.4341, basin right, observer right, disagreement=False"
+      ],
+      [
+        "receptive position, rogue authority",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 approval not from the authority"
+      ],
+      [
+        "authority rejects malformed envelope",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 authority will not sign a malformed envelope; missing ['confession_root', 'event_root', 'execution_context', 'expiry', 'offering_impulse', 'organism_id', 'realization_root']"
+      ],
+      [
+        "signed full envelope, components absent at receive",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 incomplete set: nothing proposed"
+      ],
+      [
+        "empty realization",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 realization not certified by declaration alone"
+      ],
+      [
+        "empty confession (R5)",
+        "REFUSE",
+        "PASS",
+        "refused: II.2 confession is empty"
+      ],
+      [
+        "state moved after proposal",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['execution_context']"
+      ],
+      [
+        "substrate time shifted (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['execution_context']"
+      ],
+      [
+        "event content rewritten after signing (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['event_root']"
+      ],
+      [
+        "offering impulse swapped (R6)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 binding broken; fields changed since proposal: ['offering_impulse']"
+      ],
+      [
+        "wrapper expiry extended past signed (R2)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 wrapper expiry 2000.0 disagrees with signed 1100.0"
+      ],
+      [
+        "expired approval",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 approval expired (signed value)"
+      ],
+      [
+        "assay duration varied by caller (R3)",
+        "REFUSE",
+        "PASS",
+        "refused: II.3 assay duration 0.0 not the bound 24.0"
+      ],
+      [
+        "criterion disagreement recorded (R4)",
+        "COMPLETE",
+        "FAIL",
+        "unexpected AssertionError: disagreement not recorded"
+      ],
+      [
+        "record preserved on non-crossing",
+        "OFFER_NO_CROSSING",
+        "PASS",
+        "OFFER_NO_CROSSING: impulse 0.6, threshold 0.8853, basin left, observer left, disagreement=False"
+      ]
+    ]
+  },
+  "scope": "Harness repair only; junction operational behavior unchanged from v0.2."
+}

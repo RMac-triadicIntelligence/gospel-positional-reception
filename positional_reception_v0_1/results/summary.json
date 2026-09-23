@@ -1,0 +1,70 @@
+{
+  "scope": "Constructed scalar landscape instrument; no learned semantics, authorization, burden or forgiveness mechanism.",
+  "runtime": "3.12.14",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "dt": 0.02,
+  "assay_duration": 24,
+  "counts": {
+    "frozen_clone": {
+      "n": 1080,
+      "matches": 1080,
+      "unresolved": 0,
+      "mismatches": []
+    },
+    "continued_dwelling": {
+      "n": 1080,
+      "matches": 1077,
+      "unresolved": 0,
+      "mismatches": [
+        {
+          "seed": 3,
+          "arm": "forward",
+          "t": 23.999999999999854,
+          "impulse": 0.45,
+          "prediction": "left",
+          "observed": "right"
+        },
+        {
+          "seed": 5,
+          "arm": "forward",
+          "t": 2.0000000000000013,
+          "impulse": 0.85,
+          "prediction": "left",
+          "observed": "right"
+        },
+        {
+          "seed": 10,
+          "arm": "forward",
+          "t": 2.0000000000000013,
+          "impulse": 0.85,
+          "prediction": "left",
+          "observed": "right"
+        }
+      ]
+    }
+  },
+  "convergence": {
+    "sample_n": 72,
+    "dt_half": 0.01,
+    "max_end_x_delta": 4.912736883966318e-13,
+    "label_flips": 0
+  },
+  "sources": {
+    "test_reception.py": "eeaf8383052ebd0304a097fa69037f494e3ba8d3409c284b61713cdba1429541",
+    "reception.py": "709f11b524f920112ea84d7f806b758f4084c7bc85815e5fc7eb4bb57e151f9e",
+    "run_experiment.py": "22ff94d026f5acfadf60c74581b0853609521a8b2b1db3192175c4084de4dfe8"
+  }
+}

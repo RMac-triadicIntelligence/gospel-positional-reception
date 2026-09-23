@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-10",
+  "parent_source_sha256": "709f11b524f920112ea84d7f806b758f4084c7bc85815e5fc7eb4bb57e151f9e",
+  "parent_copy_byte_identical": true,
+  "prediction_hash_unchanged_after_harness_hardening": true,
+  "sha256": {
+    "FINDINGS.md": "27870ca473bef3faec80e42f28c30157e2754202e5e97830e1ef00781c68196d",
+    "PROTOCOL.md": "9b8d7bd6dd3f63256f15161fd6db2c73adcbfac100ab0cd438b2591beec4bf07",
+    "README.md": "6b5a4362a41875ecd9ef040c471c73ed892666e27d6a6644a16e96524af1ffde",
+    "experiment.py": "717066bb0a3fa68163aefd819936c043727cb34bb6c979d7b1cb3c9a321474d1",
+    "learner.py": "1d28fd6bcf678b83f8e58c503001bf895b531329de2fa6801c4a9e2d3ee93e38",
+    "requirements.txt": "7bd6b8946940b79948c548c8048e545684b91c8edc9444d8dfc0c8f76a97c0a7",
+    "results/diagnostic_hidden.json": "ee93e387f71cecbd594c45145b5cc5ce20d686bb18c41032200c6c012e356f42",
+    "results/heldout_truth.json": "c5b684d0afa9b0d931628d1b1835a65dbffef8380b6abe5a36736168122100f8",
+    "results/metrics.csv": "e3790e416cf570c046beece0b46ab72d4cec56298df091abc211dd3338b29988",
+    "results/numerical_checks.csv": "199ebb51a010e30a11cd9179d23d2eedf82618cef02735479523036552f6e3b7",
+    "results/observable_dataset.json": "df0a9e115c6c21ccdedf690401913fc4d8f0969447d154c5d3e111bd060c63a5",
+    "results/paired_improvements.csv": "fd73f1f1de45705f9bdf042c30d6fd6c895676016a9338b1891ddd9e22480cc4",
+    "results/per_history.csv": "bfa8314fe0f28f417e8299891d49fa999afc5504ae43d291099a3d5c71a82968",
+    "results/predictions.json": "731ee8b02b1bd67af76e53dabb07b2da618f8f623d056b8fdc4d462ff790357c",
+    "results/summary.json": "c7c3ca7e382700d46f2653c256f9f3407798cf491d43426f3350548e1f9f4e9c",
+    "results/tests.txt": "524e325b054b1295aedabe27bde4a198061d1754edf0e095556b4245904f28ff",
+    "results/trace_seed_10.csv": "8ed5570aa860c37993b73461c34d7933923c9ef8887a0c32d86576444cba2828",
+    "results/trace_seed_3.csv": "2f48892aea14a21148483e29d5f652731e26f0ecdc3a548622f8bd4a0ec0b977",
+    "results/trace_seed_5.csv": "2a395ea9aa67a294b279ad247f35d9edcb7ddd87ae6f5a8c57afe063d67e6ea8",
+    "run.log": "f33847911cf6b18ff9ab175277cbe21f923dc0a28e4177f73a4594334a5218e4",
+    "substrate_v01.py": "709f11b524f920112ea84d7f806b758f4084c7bc85815e5fc7eb4bb57e151f9e",
+    "test_batch.py": "86eacca4e3dce3e896ddb0010be82ce7f123068a98da654aa8024cbf16e995ed"
+  }
+}

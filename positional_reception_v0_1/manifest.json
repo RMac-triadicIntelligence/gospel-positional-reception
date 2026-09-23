@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-10",
+  "sha256": {
+    "FINDINGS.md": "b3b13ad53db0f75704a5942d8930da19313466eef0140d6f4e06f815898b0120",
+    "README.md": "038fb6bfd407ddf04261cd2310d0aca61fed6c7686fa7d683e05b76ed6d30359",
+    "reception.py": "709f11b524f920112ea84d7f806b758f4084c7bc85815e5fc7eb4bb57e151f9e",
+    "results/snapshots.csv": "0d0a6f9952c95ee8ab9108484894cd049ec3736978715a3559059ba8aada1f6f",
+    "results/summary.json": "793ac7ec3e63a01339c137d8cc1dfcd5ee669e25f9303ab1e01cee01648865f8",
+    "results/tests.txt": "0834c6a3f01694142dc395b78cc4a0081e010a9c9beb943150234896ab4796a2",
+    "results/trials.csv": "545170681c070a0b5709bcb6a507f5ce8f3209d13f1bbeda29305eb4895270de",
+    "run_experiment.py": "22ff94d026f5acfadf60c74581b0853609521a8b2b1db3192175c4084de4dfe8",
+    "test_reception.py": "eeaf8383052ebd0304a097fa69037f494e3ba8d3409c284b61713cdba1429541"
+  }
+}
